@@ -15,7 +15,7 @@ var cardsBelowHTML;
 //Fetch for selected Card
 var displaySelectedCard = function (type, id) {
     cardHTML = "";
-    var urlAPI = baseUrl + "/" + type + "/" + id + "?apikey=" + apiKey + "&hash=" + hash;
+    var urlAPI = "" + baseUrl + type + "/" + id + "?apikey=" + apiKey + "&hash=" + hash;
     fetch(urlAPI)
         .then(function (res) { return res.json(); })
         .then(function (json) {
@@ -58,7 +58,8 @@ var displaySelectedCard = function (type, id) {
         else if (type === "characters") {
             typeBelow = "comics";
         }
-        displayInfoBelow(infoURL, typeBelow);
+        console.log(infoURL);
+        displayInfoBelow("https://gateway.marvel.com/v1/public/comics/1689/characters", typeBelow);
         cardHTML = "\n            <div class=\"img-data\">\n            <img src=\"" + thumb.path + "." + thumb.extension + "\" alt=\"ComicImg/HeroImg\">\n        </div>\n        <div class=\"text-data\">\n            <h3 class=\"item-data\">" + cardTitle + "</h3>\n            <div class=\"item-data\">\n                <h4>Publicado:</h4>\n                <p>" + cardDate + "</p>\n            </div>\n            <div class=\"item-data\" id=\"creator-data\">\n                <h4>Guionistas:</h4>\n                <p>" + comicCreators + "</p>\n            </div>\n            <div class=\"item-data\" id=\"description\">\n                <h4>Descripci\u00F3n:</h4>\n                <p>" + cardDescription + "</p>\n            </div>\n        </div>";
         cardData.innerHTML = cardHTML;
     });

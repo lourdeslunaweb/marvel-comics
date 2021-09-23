@@ -18,7 +18,7 @@ let cardsBelowHTML;
 //Fetch for selected Card
 const displaySelectedCard = (type: string, id: string) => {
     cardHTML = "";
-    const urlAPI = `http://gateway.marvel.com:443/v1/public/${type}/${id}?apikey=${apiKey}&hash=${hash}`;
+    const urlAPI = `${baseUrl}${type}/${id}?apikey=${apiKey}&hash=${hash}`;
     fetch(urlAPI)
         .then(res => res.json())
         .then((json) => {
@@ -57,7 +57,8 @@ const displaySelectedCard = (type: string, id: string) => {
             } else if (type === "characters") {
                 typeBelow = "comics"
             }
-            displayInfoBelow(infoURL, typeBelow);
+            console.log(infoURL);
+            displayInfoBelow("https://gateway.marvel.com/v1/public/comics/1689/characters", typeBelow);
             cardHTML = `
             <div class="img-data">
             <img src="${thumb.path}.${thumb.extension}" alt="ComicImg/HeroImg">
