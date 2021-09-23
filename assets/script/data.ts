@@ -18,7 +18,7 @@ let cardsBelowHTML;
 //Fetch for selected Card
 const displaySelectedCard = (type: string, id: string) => {
     cardHTML = "";
-    const urlAPI = `${baseUrl}/${type}/${id}?apikey=${apiKey}&hash=${hash}`;
+    const urlAPI = `http://gateway.marvel.com:443/v1/public/${type}/${id}?apikey=${apiKey}&hash=${hash}`;
     fetch(urlAPI)
         .then(res => res.json())
         .then((json) => {
