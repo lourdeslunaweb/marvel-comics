@@ -45,11 +45,11 @@ const displaySelectedCard = (type: string, id: string) => {
             } else {
                 comicCreators = ""
             }
-            let infoURL;
+            let infoURLAux;
             if (selectedCard.characters) {
-                infoURL = selectedCard.characters.collectionURI
+                infoURLAux = selectedCard.characters.collectionURI
             } else if (selectedCard.comics) {
-                infoURL = selectedCard.comics.collectionURI
+                infoURLAux = selectedCard.comics.collectionURI
             }
             let typeBelow;
             if (type === "comics") {
@@ -57,8 +57,8 @@ const displaySelectedCard = (type: string, id: string) => {
             } else if (type === "characters") {
                 typeBelow = "comics"
             }
-            console.log(infoURL);
-            displayInfoBelow("https://gateway.marvel.com/v1/public/comics/1689/characters", typeBelow);
+            let infoURL = insertStr(infoURLAux, "s", 4)
+            displayInfoBelow(infoURL, typeBelow);
             cardHTML = `
             <div class="img-data">
             <img src="${thumb.path}.${thumb.extension}" alt="ComicImg/HeroImg">
@@ -117,5 +117,9 @@ const displayInfoBelow = (url: string, type: string) => {
         });
 }
 
+// Auxiliar function to insert "s" in infoURL
+const insertStr = (text : string, strToInsert : string, position : number) => {
+    return text.slice(0, position)+ strToInsert  + text.slice(position);
+}
 
 

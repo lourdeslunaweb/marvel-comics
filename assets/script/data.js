@@ -44,12 +44,12 @@ var displaySelectedCard = function (type, id) {
         else {
             comicCreators = "";
         }
-        var infoURL;
+        var infoURLAux;
         if (selectedCard.characters) {
-            infoURL = selectedCard.characters.collectionURI;
+            infoURLAux = selectedCard.characters.collectionURI;
         }
         else if (selectedCard.comics) {
-            infoURL = selectedCard.comics.collectionURI;
+            infoURLAux = selectedCard.comics.collectionURI;
         }
         var typeBelow;
         if (type === "comics") {
@@ -58,8 +58,8 @@ var displaySelectedCard = function (type, id) {
         else if (type === "characters") {
             typeBelow = "comics";
         }
-        console.log(infoURL);
-        displayInfoBelow("https://gateway.marvel.com/v1/public/comics/1689/characters", typeBelow);
+        var infoURL = insertStr(infoURLAux, "s", 4);
+        displayInfoBelow(infoURL, typeBelow);
         cardHTML = "\n            <div class=\"img-data\">\n            <img src=\"" + thumb.path + "." + thumb.extension + "\" alt=\"ComicImg/HeroImg\">\n        </div>\n        <div class=\"text-data\">\n            <h3 class=\"item-data\">" + cardTitle + "</h3>\n            <div class=\"item-data\">\n                <h4>Publicado:</h4>\n                <p>" + cardDate + "</p>\n            </div>\n            <div class=\"item-data\" id=\"creator-data\">\n                <h4>Guionistas:</h4>\n                <p>" + comicCreators + "</p>\n            </div>\n            <div class=\"item-data\" id=\"description\">\n                <h4>Descripci\u00F3n:</h4>\n                <p>" + cardDescription + "</p>\n            </div>\n        </div>";
         cardData.innerHTML = cardHTML;
     });
@@ -93,4 +93,8 @@ var displayInfoBelow = function (url, type) {
             cardsBelowSection.innerHTML = cardsBelowHTML;
         }
     });
+};
+// Auxiliar function to insert "s" in infoURL
+var insertStr = function (text, strToInsert, position) {
+    return text.slice(0, position) + strToInsert + text.slice(position);
 };
