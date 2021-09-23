@@ -1,0 +1,109 @@
+.marvel-cards {
+    @include flex-center;
+    flex-wrap: wrap;
+}
+
+.card-div {
+    flex-direction: column;
+    text-align: center;
+    height: 420px;
+    width: 280px;
+    margin-top: $margin-l;
+    @include card-name;
+    h3 {
+        margin-top: $margin-s;
+    }
+}
+
+.card-div-below {
+    text-align: center;
+    height: 300px;
+    width: 250px;
+    margin-top: $margin-l;
+    @include card-name;
+    overflow: hidden;
+    h4 {
+        margin-top: $margin-m;
+    }
+}
+
+.card-home {
+    height: 350px;
+    width: 230px;
+    box-shadow: $box-shadow;
+    transition: all 0.5s;
+    @include card-transition;
+}
+
+.card-below {
+    height: 230px;
+    width: 160px;
+    box-shadow: $box-shadow;
+    transition: all 0.5s;
+    @include card-transition;
+} 
+
+@media screen and (max-width: 500px) {
+    .card-div-below {
+        height: 230px;
+        width: 180px;
+    }
+    .card-below {
+        height: 160px;
+        width: 110px;
+    } 
+}
+
+
+.card-data-container {
+    @include flex-center;
+    .card-data {
+        display: flex;
+        width: 80%;
+        .img-data {
+            img {
+                width: 23rem;
+                height: 32rem;
+            }
+        }
+        .text-data{
+            .item-data{
+                margin: $margin-l 0 0 $margin-l;
+                font-family: 'Montserrat', sans-serif;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 900px){
+    .card-data-container {
+        .card-data {
+            @include flex-center;
+            flex-direction: column;
+            .img-data {
+                img {
+                    width: 18rem;
+                    height: 27rem;
+                }
+            }
+            .text-data{
+                .item-data{
+                    margin: $margin-l 0 0 0;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 600px){
+    .card-data-container {
+        .card-data {
+            .img-data {
+                img {
+                    width: 13rem;
+                    height: 22rem;
+                }
+            }
+        }
+    }
+}

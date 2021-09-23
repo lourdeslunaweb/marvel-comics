@@ -1,0 +1,34 @@
+header {
+    .header-text {
+        background-color: $tertiary;
+        @include flex-center;
+        h1 {
+            font-family: $montserrat;
+            background-color: $red-hover;
+            color: white;
+            padding: $padding-xs;
+        }
+    }
+    .header-img {
+        background-image: url("https://sm.ign.com/ign_es/screenshot/default/marvel-comics-women-of-marvel-poster_gc1q.jpg");
+        height: 350px;
+        background-size: cover;
+        background-position: center;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    header {
+        .header-img {
+            height: 250px;
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    header {
+        .header-img {
+            height: 200px;
+        }
+    }
+}

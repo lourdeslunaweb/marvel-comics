@@ -1,0 +1,31 @@
+type Comic = {
+    id?: number,
+    digitalId?: number,
+    title?: string,
+    issueNumber?: number,
+    variantDescription?: string,
+    description?: string,
+    modified?: Date,
+    isbn?: string,
+    upc?: string,
+    diamondCode?: string,
+    ean?: string,
+    issn?: string,
+    format?: string,
+    pageCount?: number,
+    textObjects?: string[],
+    resourceURI?: string,
+    urls?: string[],
+    series?: Object, 
+    variants?: string[],
+    collections?: string[],
+    collectedIssues?: string[],
+    dates?: string[],
+    prices?: string[],
+    thumbnail?: Object,
+    images?: string[],
+    creators?: Object, // tipar????
+    characters?: Object, // tipar????
+    stories?: Object, // tipar?
+    events?: string[],
+}

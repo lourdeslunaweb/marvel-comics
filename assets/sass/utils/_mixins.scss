@@ -1,0 +1,50 @@
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin red-hover {
+    &:hover{
+        color: $red-hover;
+    }
+}
+
+@mixin card-transition {
+    &:hover {
+        -moz-transform: translate(0px, -10px);
+        -webkit-transform: translate(0px, -10px);
+        -o-transform: translate(0px, -10px);
+        -ms-transform: translate(0px, -10px);
+        transform: translate(0px, -10px);
+    }
+}
+
+@mixin title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5em;
+    font-weight: 700;
+    color: $tertiary;
+}
+
+@mixin subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+    color: $quaternary;
+}
+
+@mixin card-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    color: $tertiary;
+    @include red-hover;
+}
+
+@mixin labels-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.7em;
+    font-weight: 500;
+    color: white;
+}

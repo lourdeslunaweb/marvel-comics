@@ -1,0 +1,39 @@
+@import "./utils/variables";
+@import "./utils/mixins";
+@import "./base/typography";
+@import "./components/buttons";
+@import "./components/cards";
+@import "./components/carousel";
+@import "./components/cover";
+@import "./pages/index";
+@import "./layout/header";
+@import "./layout/navigation";
+@import "./layout/footer";
+@import "./layout/search-box";
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: $primary;
+}
+
+
+h2{
+    @include title;
+    margin-left: $margin-xl;
+}
+
+.hidden{
+    display: none;
+}
+
+a{
+    text-decoration: none;
+    color:  #ffffff;
+    font-family: 'Roboto', sans-serif;
+}
