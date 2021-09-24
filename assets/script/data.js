@@ -1,10 +1,10 @@
 // *******************************************
 // *** Display selected card in data.html ***
 // *******************************************
-//Params
-var params = new URLSearchParams(window.location.search);
-var typeData = params.get('type');
-var cardId = params.get('id');
+//Params Data
+var paramsData = new URLSearchParams(window.location.search);
+var typeData = paramsData.get('type');
+var cardId = paramsData.get('id');
 //Nodes
 var cardData = document.getElementById("card-data");
 var subTitleBelow = document.getElementById("subtitle-below");
@@ -94,7 +94,7 @@ var displayInfoBelow = function (url, type) {
         }
     });
 };
-// Auxiliar function to insert "s" in infoURL
+// Auxiliar function to insert "s" in infoURLAux
 var insertStr = function (text, strToInsert, position) {
     return text.slice(0, position) + strToInsert + text.slice(position);
 };
