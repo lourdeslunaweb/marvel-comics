@@ -28,7 +28,6 @@ var lastPageBtn = document.getElementById("last-page-btn");
 var anchorLastPageBtn = document.getElementById("anchor-last-page-btn");
 // Refresh cards table function
 var refreshCardsTable = function (offset, type) {
-    console.log("offset dentro de fetch:", offset);
     contentHTML = "";
     var urlAPI = "" + baseUrl + type + "?ts=1&apikey=" + apiKey + "&hash=" + hash + "&limit=" + limit + "&offset=" + offset;
     fetch(urlAPI)
@@ -50,6 +49,7 @@ var refreshCardsTable = function (offset, type) {
         marvelCards.innerHTML = contentHTML;
     });
 };
+refreshCardsTable(offset, typeFilter.value);
 // Refresh cards table by types (comics or characters)
 var refreshTablesByTypes = function () {
     if (typeFilter.value === "comics") {
@@ -113,7 +113,6 @@ var showHiddeBtn = function (results, offset, limit) {
 // **************************************
 // *** Initial function of index.html ***
 // **************************************
-var initIndex = function () {
-    refreshCardsTable(offset, typeFilter.value);
-};
-initIndex();
+// const initIndex = () => {
+// }
+// initIndex()
