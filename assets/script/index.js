@@ -1,19 +1,20 @@
 // ***********************************
 // *** Display cards in index.html ***
 // ***********************************
-// Params Index
+// *** Params Index ***
 var paramsIndex = new URLSearchParams(window.location.search);
-// Set variables
+// *** Set variables ***
 var baseUrl = "https://gateway.marvel.com:443/v1/public/";
 var apiKey = "06e295e3c238e43e31ef140c424be15b";
 var hash = "1eee8ff490d4a973b65d6f613e9569ff";
 var limit = 20;
 var offset = limit * (Number(paramsIndex.get('page')));
+// let typeUrl = paramsIndex.get('type');
 var contentHTML = "";
 var totalPages;
-// Nodes
+// *** Nodes ***
 var typeFilter = document.getElementById("type-filter");
-var typeUrl = typeFilter.value;
+// const typeUrl = typeFilter.value;
 var searchInput = document.getElementById("search-input");
 var results = document.getElementById("results");
 var older = document.getElementById("older");
@@ -26,44 +27,50 @@ var prevBtn = document.getElementById("prev-btn");
 var nextBtn = document.getElementById("next-btn");
 var lastPageBtn = document.getElementById("last-page-btn");
 var anchorLastPageBtn = document.getElementById("anchor-last-page-btn");
-// Refresh cards table function
-var refreshCardsTable = function (offset, type) {
+// *** Fetch Function of Index ***
+var fetchFunction = function (offset, type) {
     contentHTML = "";
     var urlAPI = "" + baseUrl + type + "?ts=1&apikey=" + apiKey + "&hash=" + hash + "&limit=" + limit + "&offset=" + offset;
     fetch(urlAPI)
         .then(function (res) { return res.json(); })
         .then(function (json) {
-        var totalResults = json.data.total ? json.data.total : "No hay resultados";
-        totalPages = (Math.ceil(totalResults / limit)) - 1;
-        anchorLastPageBtn.setAttribute("href", "./index.html?page=" + totalPages);
-        showHiddeBtn(totalResults, offset, limit);
-        results.innerText = totalResults + " resultados";
+        var totalResults = json.data.total ? json.data.total : 0;
         var cards = json.data.results;
-        for (var _i = 0, cards_1 = cards; _i < cards_1.length; _i++) {
-            var card = cards_1[_i];
-            var thumb = card.thumbnail ? card.thumbnail : "";
-            var cardTitle = card.title ? card.title : card.name;
-            var hrefData = "./data.html?type=" + type + "&id=" + card.id;
-            contentHTML += "\n            <div class=\"card-div\">\n                <a href=\"" + hrefData + "\">\n                    <img src=\"" + thumb.path + "." + thumb.extension + "\" alt=\"" + cardTitle + "\"  class=\"card-home\">\n                </a>\n                <h3>" + cardTitle + "</h3>\n            </div>";
-        }
-        marvelCards.innerHTML = contentHTML;
+        displayTotalResults(totalResults, results);
+        lastPage(totalResults, limit);
+        showHiddeBackwardBtn(totalResults, offset, limit);
+        displayCards(cards, type);
     });
 };
-refreshCardsTable(offset, typeFilter.value);
-// Refresh cards table by types (comics or characters)
+// *** Display Marvel Cards ***
+var displayCards = function (cards, type) {
+    for (var _i = 0, cards_1 = cards; _i < cards_1.length; _i++) {
+        var card = cards_1[_i];
+        var thumbPath = card.thumbnail.path ? card.thumbnail.path : "https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953";
+        var thumbExtension = card.thumbnail.extension ? card.thumbnail.extension : "jpg";
+        var cardTitle = card.title ? card.title : card.name;
+        var hrefData = "./data.html?type=" + type + "&id=" + card.id;
+        contentHTML += "\n    <div class=\"card-div\">\n        <a href=\"" + hrefData + "\">\n            <img src=\"" + thumbPath + "." + thumbExtension + "\" alt=\"" + cardTitle + "\"  class=\"card-home\">\n        </a>\n        <h3>" + cardTitle + "</h3>\n    </div>";
+    }
+    marvelCards.innerHTML = contentHTML;
+};
+// *** Display Totals Results of fetch ***
+var displayTotalResults = function (result, node) {
+    node.innerText = result + " resultados";
+};
+// *** Refresh cards table by types (comics or characters) ***
 var refreshTablesByTypes = function () {
     if (typeFilter.value === "comics") {
-        refreshCardsTable(offset, "comics");
+        fetchFunction(offset, "comics");
     }
     else if (typeFilter.value === "characters") {
-        refreshCardsTable(offset, "characters");
+        fetchFunction(offset, "characters");
     }
 };
 typeFilter.addEventListener("change", refreshTablesByTypes);
-// *******************************
-// *** Pagination in index.html***
-// *******************************
-// Note: Last Page is setted into refreshCardsTable with an anchor in anchorLastPageBtn
+// **********************************
+// *** Pagination Btn in index.html***
+// **********************************
 var nextPage = function () {
     var page = Number(paramsIndex.get('page'));
     if (!page) {
@@ -75,6 +82,10 @@ var nextPage = function () {
     window.location.href = 'index.html?' + paramsIndex;
 };
 nextBtn.addEventListener("click", nextPage);
+var lastPage = function (result, limit) {
+    totalPages = (Math.ceil(result / limit)) - 1;
+    anchorLastPageBtn.setAttribute("href", "./index.html?page=" + totalPages);
+};
 var prevPage = function () {
     var page = Number(paramsIndex.get('page'));
     if (!page) {
@@ -91,16 +102,8 @@ var firstPage = function () {
     window.location.href = 'index.html?' + paramsIndex;
 };
 firstPageBtn.addEventListener("click", firstPage);
-// Show or hidde fordward btn and backward btn
-var showHiddeBtn = function (results, offset, limit) {
-    if (results === offset + limit) {
-        nextBtn.classList.add("hidden");
-        lastPageBtn.classList.add("hidden");
-    }
-    else {
-        nextBtn.classList.remove("hidden");
-        lastPageBtn.classList.remove("hidden");
-    }
+// *** Show or hidde Barckward Btn (firstPageBtn and prevBtn) ***
+var showHiddeBackwardBtn = function (results, offset, limit) {
     if (offset === 0) {
         prevBtn.classList.add("hidden");
         firstPageBtn.classList.add("hidden");
@@ -110,9 +113,31 @@ var showHiddeBtn = function (results, offset, limit) {
         firstPageBtn.classList.remove("hidden");
     }
 };
+// *** Show or Hidde Forward Btn (lastPageBtn and nextBtn) ***
+// const showHiddeFordwardBtn = (finalPage) =>{
+// getparam(page)
+// if page === finalPage
+//         if (results === offset + limit) {
+//         nextBtn.classList.add("hidden");
+//         lastPageBtn.classList.add("hidden");
+//     } else {
+//         nextBtn.classList.remove("hidden");
+//         lastPageBtn.classList.remove("hidden");
+//     }
+// }
 // **************************************
 // *** Initial function of index.html ***
 // **************************************
-// const initIndex = () => {
-// }
-// initIndex()
+var initIndex = function () {
+    // let page = Number(paramsIndex.get('page'));
+    // let typeAux = paramsIndex.get('type');
+    // if (!typeAux) {
+    //     paramsIndex.set('type', typeFilter.value)
+    // }
+    // if (!page) {
+    //     paramsIndex.set('page', '0')
+    // }
+    // window.location.href = 'index.html?' + paramsIndex;
+    fetchFunction(offset, typeFilter.value);
+};
+initIndex();
