@@ -32,7 +32,6 @@ const anchorLastPageBtn = document.getElementById("anchor-last-page-btn");
 
 // Refresh cards table function
 const refreshCardsTable = (offset: number, type: string) => {
-    console.log("offset dentro de fetch:", offset)
     contentHTML = "";
     const urlAPI = `${baseUrl}${type}?ts=1&apikey=${apiKey}&hash=${hash}&limit=${limit}&offset=${offset}`;
     fetch(urlAPI)
@@ -59,6 +58,7 @@ const refreshCardsTable = (offset: number, type: string) => {
             marvelCards.innerHTML = contentHTML;
         });
 }
+refreshCardsTable(offset, typeFilter.value);
 
 // Refresh cards table by types (comics or characters)
 const refreshTablesByTypes = () => {
@@ -127,10 +127,10 @@ const showHiddeBtn = (results : number, offset: number, limit: number) =>{
 // *** Initial function of index.html ***
 // **************************************
 
-const initIndex = () => {
-    refreshCardsTable(offset, typeFilter.value);
-}
-initIndex()
+// const initIndex = () => {
+    
+// }
+// initIndex()
 
 
 

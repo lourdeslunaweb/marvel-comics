@@ -43,6 +43,20 @@
     @include card-transition;
 } 
 
+@media screen and (max-width: 560px) {
+    .card-div {
+        height: 230px;
+        width: 180px;
+        h3 {
+            font-size: small;
+        }
+    }
+    .card-home {
+        height: 160px;
+        width: 110px;
+    } 
+}
+
 @media screen and (max-width: 500px) {
     .card-div-below {
         height: 230px;
