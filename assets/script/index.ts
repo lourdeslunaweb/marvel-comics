@@ -74,14 +74,14 @@ const displayTotalResults = (result: number, node) => {
 
 
 // *** Refresh cards table by types (comics or characters) ***
-const refreshTablesByTypes = () => {
-    if (typeFilter.value === "comics") {
-        fetchFunction(offset, "comics")
-    } else if (typeFilter.value === "characters") {
-        fetchFunction(offset, "characters")
-    }
-}
-typeFilter.addEventListener("change", refreshTablesByTypes);
+// const refreshTablesByTypes = () => {
+//     if (typeFilter.value === "comics") {
+//         fetchFunction(offset, "comics")
+//     } else if (typeFilter.value === "characters") {
+//         fetchFunction(offset, "characters")
+//     }
+// }
+// typeFilter.addEventListener("change", refreshTablesByTypes);
 
 // ***********************************
 // *** Pagination Btn in index.html***
