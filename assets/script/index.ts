@@ -13,7 +13,7 @@ const limit = 20;
 let offset = limit * (Number(paramsIndex.get('page')));
 // let typeUrl = paramsIndex.get('type');
 let contentHTML = "";
-let totalPages;
+
 
 // *** Nodes ***
 const typeFilter = document.getElementById("type-filter");
@@ -38,11 +38,13 @@ const fetchFunction = (offset: number, type: string) => {
     fetch(urlAPI)
         .then(res => res.json())
         .then((json) => {
-            const totalResults = json.data.total ? json.data.total : 0;
+            const totalResults: number = json.data.total ? json.data.total : 0;
             const cards = json.data.results;
+            const lastPageNumber: number = (Math.ceil(totalResults / limit)) - 1;
             displayTotalResults(totalResults, results);
-            lastPage(totalResults, limit);
-            showHiddeBackwardBtn(totalResults, offset, limit);
+            lastPage(lastPageNumber);
+            showHiddeBackwardBtn(offset);
+            showHiddeFordwardBtn(lastPageNumber);
             displayCards(cards, type)
         });
 }
@@ -81,9 +83,9 @@ const refreshTablesByTypes = () => {
 }
 typeFilter.addEventListener("change", refreshTablesByTypes);
 
-// **********************************
+// ***********************************
 // *** Pagination Btn in index.html***
-// **********************************
+// ***********************************
 
 const nextPage = () => {
     let page = Number(paramsIndex.get('page'));
@@ -96,9 +98,8 @@ const nextPage = () => {
 }
 nextBtn.addEventListener("click", nextPage);
 
-const lastPage = (result: number, limit: number) => {
-    totalPages = (Math.ceil(result / limit)) - 1;
-    anchorLastPageBtn.setAttribute("href", `./index.html?page=${totalPages}`);
+const lastPage = (page: number) => {
+    anchorLastPageBtn.setAttribute("href", `./index.html?page=${page}`);
 }
 
 const prevPage = () => {
@@ -119,7 +120,7 @@ const firstPage = () => {
 firstPageBtn.addEventListener("click", firstPage);
 
 // *** Show or hidde Barckward Btn (firstPageBtn and prevBtn) ***
-const showHiddeBackwardBtn = (results: number, offset: number, limit: number) => {
+const showHiddeBackwardBtn = (offset: number) => {
     if (offset === 0) {
         prevBtn.classList.add("hidden");
         firstPageBtn.classList.add("hidden");
@@ -130,17 +131,16 @@ const showHiddeBackwardBtn = (results: number, offset: number, limit: number) =>
 }
 
 // *** Show or Hidde Forward Btn (lastPageBtn and nextBtn) ***
-// const showHiddeFordwardBtn = (finalPage) =>{
-// getparam(page)
-// if page === finalPage
-//         if (results === offset + limit) {
-//         nextBtn.classList.add("hidden");
-//         lastPageBtn.classList.add("hidden");
-//     } else {
-//         nextBtn.classList.remove("hidden");
-//         lastPageBtn.classList.remove("hidden");
-//     }
-// }
+const showHiddeFordwardBtn = (page: number) => {
+    const pageNumFromParam: number = Number(paramsIndex.get('page'));
+    if (pageNumFromParam === page) {
+        nextBtn.classList.add("hidden");
+        lastPageBtn.classList.add("hidden");
+    } else {
+        nextBtn.classList.remove("hidden");
+        lastPageBtn.classList.remove("hidden");
+    }
+}
 
 
 // **************************************
