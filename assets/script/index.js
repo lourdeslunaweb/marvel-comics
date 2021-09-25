@@ -11,7 +11,6 @@ var limit = 20;
 var offset = limit * (Number(paramsIndex.get('page')));
 // let typeUrl = paramsIndex.get('type');
 var contentHTML = "";
-var totalPages;
 // *** Nodes ***
 var typeFilter = document.getElementById("type-filter");
 // const typeUrl = typeFilter.value;
@@ -36,9 +35,11 @@ var fetchFunction = function (offset, type) {
         .then(function (json) {
         var totalResults = json.data.total ? json.data.total : 0;
         var cards = json.data.results;
+        var lastPageNumber = (Math.ceil(totalResults / limit)) - 1;
         displayTotalResults(totalResults, results);
-        lastPage(totalResults, limit);
-        showHiddeBackwardBtn(totalResults, offset, limit);
+        lastPage(lastPageNumber);
+        showHiddeBackwardBtn(offset);
+        showHiddeFordwardBtn(lastPageNumber);
         displayCards(cards, type);
     });
 };
@@ -68,9 +69,9 @@ var refreshTablesByTypes = function () {
     }
 };
 typeFilter.addEventListener("change", refreshTablesByTypes);
-// **********************************
+// ***********************************
 // *** Pagination Btn in index.html***
-// **********************************
+// ***********************************
 var nextPage = function () {
     var page = Number(paramsIndex.get('page'));
     if (!page) {
@@ -82,9 +83,8 @@ var nextPage = function () {
     window.location.href = 'index.html?' + paramsIndex;
 };
 nextBtn.addEventListener("click", nextPage);
-var lastPage = function (result, limit) {
-    totalPages = (Math.ceil(result / limit)) - 1;
-    anchorLastPageBtn.setAttribute("href", "./index.html?page=" + totalPages);
+var lastPage = function (page) {
+    anchorLastPageBtn.setAttribute("href", "./index.html?page=" + page);
 };
 var prevPage = function () {
     var page = Number(paramsIndex.get('page'));
@@ -103,7 +103,7 @@ var firstPage = function () {
 };
 firstPageBtn.addEventListener("click", firstPage);
 // *** Show or hidde Barckward Btn (firstPageBtn and prevBtn) ***
-var showHiddeBackwardBtn = function (results, offset, limit) {
+var showHiddeBackwardBtn = function (offset) {
     if (offset === 0) {
         prevBtn.classList.add("hidden");
         firstPageBtn.classList.add("hidden");
@@ -114,17 +114,17 @@ var showHiddeBackwardBtn = function (results, offset, limit) {
     }
 };
 // *** Show or Hidde Forward Btn (lastPageBtn and nextBtn) ***
-// const showHiddeFordwardBtn = (finalPage) =>{
-// getparam(page)
-// if page === finalPage
-//         if (results === offset + limit) {
-//         nextBtn.classList.add("hidden");
-//         lastPageBtn.classList.add("hidden");
-//     } else {
-//         nextBtn.classList.remove("hidden");
-//         lastPageBtn.classList.remove("hidden");
-//     }
-// }
+var showHiddeFordwardBtn = function (page) {
+    var pageNumFromParam = Number(paramsIndex.get('page'));
+    if (pageNumFromParam === page) {
+        nextBtn.classList.add("hidden");
+        lastPageBtn.classList.add("hidden");
+    }
+    else {
+        nextBtn.classList.remove("hidden");
+        lastPageBtn.classList.remove("hidden");
+    }
+};
 // **************************************
 // *** Initial function of index.html ***
 // **************************************
