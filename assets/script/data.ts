@@ -23,6 +23,7 @@ const displaySelectedCard = (type: string, id: string) => {
         .then(res => res.json())
         .then((json) => {
             const selectedCard = json.data.results[0];
+            console.log(selectedCard)
             const cardTitle = selectedCard.title ? selectedCard.title : selectedCard.name;
             const thumb = selectedCard.thumbnail;
             const cardDescription = selectedCard.description ? selectedCard.description : "Description not available";

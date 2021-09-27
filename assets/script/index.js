@@ -9,15 +9,13 @@ var apiKey = "06e295e3c238e43e31ef140c424be15b";
 var hash = "1eee8ff490d4a973b65d6f613e9569ff";
 var limit = 20;
 var offset = limit * (Number(paramsIndex.get('page')));
-// let typeUrl = paramsIndex.get('type');
 var contentHTML = "";
 // *** Nodes ***
 var typeFilter = document.getElementById("type-filter");
-// const typeUrl = typeFilter.value;
+var newerItem = document.getElementById("newer");
+var olderItem = document.getElementById("older");
 var searchInput = document.getElementById("search-input");
 var results = document.getElementById("results");
-var older = document.getElementById("older");
-var newer = document.getElementById("newer");
 var sortFilter = document.getElementById("sort-filter");
 var searchBtn = document.getElementById("search-button");
 var marvelCards = document.getElementById("marvel-cards");
@@ -28,8 +26,24 @@ var lastPageBtn = document.getElementById("last-page-btn");
 var anchorLastPageBtn = document.getElementById("anchor-last-page-btn");
 // *** Fetch Function of Index ***
 var fetchFunction = function (offset, type) {
+    var sort = paramsIndex.get('orderBy') ? paramsIndex.get('orderBy') : 'title';
     contentHTML = "";
-    var urlAPI = "" + baseUrl + type + "?ts=1&apikey=" + apiKey + "&hash=" + hash + "&limit=" + limit + "&offset=" + offset;
+    var urlInit = "" + baseUrl + type + "?ts=1&apikey=" + apiKey + "&hash=" + hash + "&limit=" + limit + "&offset=" + offset + "&orderBy=" + sort;
+    var text;
+    if (type === "comics") {
+        text = paramsIndex.get('titleStartsWith');
+        if (text) {
+            urlInit += "&titleStartsWith=" + text;
+        }
+    }
+    else if (type === "characters") {
+        text = paramsIndex.get('nameStartsWith');
+        if (text) {
+            urlInit += "&nameStartsWith=" + text;
+        }
+    }
+    var urlAPI = urlInit;
+    console.log(urlAPI);
     fetch(urlAPI)
         .then(function (res) { return res.json(); })
         .then(function (json) {
@@ -37,7 +51,7 @@ var fetchFunction = function (offset, type) {
         var cards = json.data.results;
         var lastPageNumber = (Math.ceil(totalResults / limit)) - 1;
         displayTotalResults(totalResults, results);
-        lastPage(lastPageNumber);
+        lastPage(lastPageNumber, type);
         showHiddeBackwardBtn(offset);
         showHiddeFordwardBtn(lastPageNumber);
         displayCards(cards, type);
@@ -59,16 +73,6 @@ var displayCards = function (cards, type) {
 var displayTotalResults = function (result, node) {
     node.innerText = result + " resultados";
 };
-// *** Refresh cards table by types (comics or characters) ***
-var refreshTablesByTypes = function () {
-    if (typeFilter.value === "comics") {
-        fetchFunction(offset, "comics");
-    }
-    else if (typeFilter.value === "characters") {
-        fetchFunction(offset, "characters");
-    }
-};
-typeFilter.addEventListener("change", refreshTablesByTypes);
 // ***********************************
 // *** Pagination Btn in index.html***
 // ***********************************
@@ -83,8 +87,8 @@ var nextPage = function () {
     window.location.href = 'index.html?' + paramsIndex;
 };
 nextBtn.addEventListener("click", nextPage);
-var lastPage = function (page) {
-    anchorLastPageBtn.setAttribute("href", "./index.html?page=" + page);
+var lastPage = function (page, type) {
+    anchorLastPageBtn.setAttribute("href", "./index.html?page=" + page + "&type=" + type);
 };
 var prevPage = function () {
     var page = Number(paramsIndex.get('page'));
@@ -125,19 +129,80 @@ var showHiddeFordwardBtn = function (page) {
         lastPageBtn.classList.remove("hidden");
     }
 };
+// ***************
+// *** Filters ***
+// ***************
+// *** Update order filter by types (comics or characters) ***
+var updateOrderFilter = function () {
+    if (typeFilter.value === "characters") {
+        newerItem.classList.add("hidden");
+        olderItem.classList.add("hidden");
+    }
+    else {
+        newerItem.classList.remove("hidden");
+        olderItem.classList.remove("hidden");
+    }
+};
+typeFilter.addEventListener("change", updateOrderFilter);
+// *** Slugify helper ***
+var slugify = function (text) {
+    return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '');
+};
+// *** Set filters in params ***
+var filters = function () {
+    // page
+    paramsIndex["delete"]('page');
+    // type
+    var searchType = typeFilter.value;
+    paramsIndex.set('type', searchType);
+    // text
+    var searchText = searchInput.value;
+    var searchTextSlugify = slugify(searchText);
+    if (searchType === "comics") {
+        paramsIndex.set('titleStartsWith', searchTextSlugify);
+    }
+    else if (searchType === "characters") {
+        paramsIndex.set('nameStartsWith', searchTextSlugify);
+    }
+    else { }
+    // sort
+    var searchSort = sortFilter.value;
+    if (searchType === "comics") {
+        if (searchSort === "a-z") {
+            paramsIndex.set('orderBy', 'title');
+        }
+        else if (searchSort === "z-a") {
+            paramsIndex.set('orderBy', '-title');
+        }
+        else if (searchSort === "mas-nuevos") {
+            paramsIndex.set('orderBy', '-focDate');
+        }
+        else if (searchSort === "mas-viejos") {
+            paramsIndex.set('orderBy', 'focDate');
+        }
+    }
+    else if (searchType === "characters") {
+        if (searchSort === "a-z") {
+            paramsIndex.set('orderBy', 'name');
+        }
+        else if (searchSort === "z-a") {
+            paramsIndex.set('orderBy', '-name');
+        }
+    }
+    window.location.href = 'index.html?' + paramsIndex;
+};
+searchBtn.addEventListener("click", filters);
 // **************************************
 // *** Initial function of index.html ***
 // **************************************
 var initIndex = function () {
-    // let page = Number(paramsIndex.get('page'));
-    // let typeAux = paramsIndex.get('type');
-    // if (!typeAux) {
-    //     paramsIndex.set('type', typeFilter.value)
-    // }
-    // if (!page) {
-    //     paramsIndex.set('page', '0')
-    // }
-    // window.location.href = 'index.html?' + paramsIndex;
-    fetchFunction(offset, typeFilter.value);
+    var params = new URLSearchParams(window.location.search);
+    var type = params.get('type') || 'comics';
+    fetchFunction(offset, type);
 };
 initIndex();
