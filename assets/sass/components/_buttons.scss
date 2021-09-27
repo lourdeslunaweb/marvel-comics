@@ -6,6 +6,7 @@
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     font-weight: 700;
+    padding: $padding-xs;
     @include flex-center;
     &:hover {
         color: $red-hover;

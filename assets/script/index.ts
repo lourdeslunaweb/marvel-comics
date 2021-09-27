@@ -11,17 +11,15 @@ const apiKey: string = "06e295e3c238e43e31ef140c424be15b";
 const hash: string = "1eee8ff490d4a973b65d6f613e9569ff";
 const limit = 20;
 let offset = limit * (Number(paramsIndex.get('page')));
-// let typeUrl = paramsIndex.get('type');
 let contentHTML = "";
 
 
 // *** Nodes ***
 const typeFilter = document.getElementById("type-filter");
-// const typeUrl = typeFilter.value;
+const newerItem = document.getElementById("newer");
+const olderItem = document.getElementById("older");
 const searchInput = document.getElementById("search-input");
 const results = document.getElementById("results");
-const older = document.getElementById("older");
-const newer = document.getElementById("newer");
 const sortFilter = document.getElementById("sort-filter");
 const searchBtn = document.getElementById("search-button");
 const marvelCards = document.getElementById("marvel-cards");
@@ -33,8 +31,23 @@ const anchorLastPageBtn = document.getElementById("anchor-last-page-btn");
 
 // *** Fetch Function of Index ***
 const fetchFunction = (offset: number, type: string) => {
+    let sort = paramsIndex.get('orderBy') ? paramsIndex.get('orderBy') : 'title';
     contentHTML = "";
-    const urlAPI = `${baseUrl}${type}?ts=1&apikey=${apiKey}&hash=${hash}&limit=${limit}&offset=${offset}`;
+    let urlInit = `${baseUrl}${type}?ts=1&apikey=${apiKey}&hash=${hash}&limit=${limit}&offset=${offset}&orderBy=${sort}`;
+    let text;
+    if (type === "comics") {
+        text = paramsIndex.get('titleStartsWith')
+        if (text) {
+            urlInit += `&titleStartsWith=${text}`
+        }
+    } else if (type === "characters") {
+        text = paramsIndex.get('nameStartsWith')
+        if (text) {
+            urlInit += `&nameStartsWith=${text}`
+        }
+    }
+    let urlAPI = urlInit;
+    console.log(urlAPI);
     fetch(urlAPI)
         .then(res => res.json())
         .then((json) => {
@@ -42,7 +55,7 @@ const fetchFunction = (offset: number, type: string) => {
             const cards = json.data.results;
             const lastPageNumber: number = (Math.ceil(totalResults / limit)) - 1;
             displayTotalResults(totalResults, results);
-            lastPage(lastPageNumber);
+            lastPage(lastPageNumber, type);
             showHiddeBackwardBtn(offset);
             showHiddeFordwardBtn(lastPageNumber);
             displayCards(cards, type)
@@ -72,17 +85,6 @@ const displayTotalResults = (result: number, node) => {
     node.innerText = `${result} resultados`;
 }
 
-
-// *** Refresh cards table by types (comics or characters) ***
-const refreshTablesByTypes = () => {
-    if (typeFilter.value === "comics") {
-        fetchFunction(offset, "comics")
-    } else if (typeFilter.value === "characters") {
-        fetchFunction(offset, "characters")
-    }
-}
-typeFilter.addEventListener("change", refreshTablesByTypes);
-
 // ***********************************
 // *** Pagination Btn in index.html***
 // ***********************************
@@ -98,8 +100,8 @@ const nextPage = () => {
 }
 nextBtn.addEventListener("click", nextPage);
 
-const lastPage = (page: number) => {
-    anchorLastPageBtn.setAttribute("href", `./index.html?page=${page}`);
+const lastPage = (page: number, type: string) => {
+    anchorLastPageBtn.setAttribute("href", `./index.html?page=${page}&type=${type}`);
 }
 
 const prevPage = () => {
@@ -142,22 +144,79 @@ const showHiddeFordwardBtn = (page: number) => {
     }
 }
 
+// ***************
+// *** Filters ***
+// ***************
+
+// *** Update order filter by types (comics or characters) ***
+const updateOrderFilter = () => {
+    if (typeFilter.value === "characters") {
+        newerItem.classList.add("hidden")
+        olderItem.classList.add("hidden")
+    } else {
+        newerItem.classList.remove("hidden")
+        olderItem.classList.remove("hidden")
+    }
+}
+typeFilter.addEventListener("change", updateOrderFilter);
+
+// *** Slugify helper ***
+const slugify = (text) => {
+    return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '');
+}
+
+// *** Set filters in params ***
+const filters = () => {
+    // page
+    paramsIndex.delete('page');
+    // type
+    const searchType = typeFilter.value;
+    paramsIndex.set('type', searchType);
+    // text
+    const searchText = searchInput.value;
+    const searchTextSlugify = slugify(searchText);
+    if (searchType === "comics") {
+        paramsIndex.set('titleStartsWith', searchTextSlugify);
+    } else if (searchType === "characters") {
+        paramsIndex.set('nameStartsWith', searchTextSlugify);
+    } else { }
+    // sort
+    const searchSort = sortFilter.value;
+    if (searchType === "comics") {
+        if (searchSort === "a-z") {
+            paramsIndex.set('orderBy', 'title');
+        } else if (searchSort === "z-a") {
+            paramsIndex.set('orderBy', '-title');
+        } else if (searchSort === "mas-nuevos") {
+            paramsIndex.set('orderBy', '-focDate');
+        } else if (searchSort === "mas-viejos") {
+            paramsIndex.set('orderBy', 'focDate');
+        }
+    } else if (searchType === "characters") {
+        if (searchSort === "a-z") {
+            paramsIndex.set('orderBy', 'name');
+        } else if (searchSort === "z-a") {
+            paramsIndex.set('orderBy', '-name');
+        }
+    }
+    window.location.href = 'index.html?' + paramsIndex;
+}
+searchBtn.addEventListener("click", filters)
+
 
 // **************************************
 // *** Initial function of index.html ***
 // **************************************
 
 const initIndex = () => {
-    // let page = Number(paramsIndex.get('page'));
-    // let typeAux = paramsIndex.get('type');
-    // if (!typeAux) {
-    //     paramsIndex.set('type', typeFilter.value)
-    // }
-    // if (!page) {
-    //     paramsIndex.set('page', '0')
-    // }
-    // window.location.href = 'index.html?' + paramsIndex;
-    fetchFunction(offset, typeFilter.value)
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type') || 'comics';
+    fetchFunction(offset, type)
 }
 initIndex()
 
