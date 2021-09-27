@@ -30,18 +30,22 @@ var fetchFunction = function (offset, type) {
     contentHTML = "";
     var urlInit = "" + baseUrl + type + "?ts=1&apikey=" + apiKey + "&hash=" + hash + "&limit=" + limit + "&offset=" + offset + "&orderBy=" + sort;
     var text;
+    var textLast;
     if (type === "comics") {
         text = paramsIndex.get('titleStartsWith');
         if (text) {
+            textLast = "&titleStartsWith=" + text;
             urlInit += "&titleStartsWith=" + text;
         }
     }
     else if (type === "characters") {
         text = paramsIndex.get('nameStartsWith');
         if (text) {
+            textLast = "&nameStartsWith=" + text;
             urlInit += "&nameStartsWith=" + text;
         }
     }
+    var textLastPage = textLast ? textLast : '';
     var urlAPI = urlInit;
     console.log(urlAPI);
     fetch(urlAPI)
@@ -51,7 +55,7 @@ var fetchFunction = function (offset, type) {
         var cards = json.data.results;
         var lastPageNumber = (Math.ceil(totalResults / limit)) - 1;
         displayTotalResults(totalResults, results);
-        lastPage(lastPageNumber, type);
+        lastPage(lastPageNumber, type, sort, textLastPage);
         showHiddeBackwardBtn(offset);
         showHiddeFordwardBtn(lastPageNumber);
         displayCards(cards, type);
@@ -87,8 +91,8 @@ var nextPage = function () {
     window.location.href = 'index.html?' + paramsIndex;
 };
 nextBtn.addEventListener("click", nextPage);
-var lastPage = function (page, type) {
-    anchorLastPageBtn.setAttribute("href", "./index.html?page=" + page + "&type=" + type);
+var lastPage = function (page, type, sort, text) {
+    anchorLastPageBtn.setAttribute("href", "./index.html?page=" + page + "&type=" + type + "&orderBy=" + sort + text);
 };
 var prevPage = function () {
     var page = Number(paramsIndex.get('page'));
