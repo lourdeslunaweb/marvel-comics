@@ -35,17 +35,21 @@ const fetchFunction = (offset: number, type: string) => {
     contentHTML = "";
     let urlInit = `${baseUrl}${type}?ts=1&apikey=${apiKey}&hash=${hash}&limit=${limit}&offset=${offset}&orderBy=${sort}`;
     let text;
+    let textLast;
     if (type === "comics") {
         text = paramsIndex.get('titleStartsWith')
         if (text) {
+            textLast = `&titleStartsWith=${text}`
             urlInit += `&titleStartsWith=${text}`
         }
     } else if (type === "characters") {
         text = paramsIndex.get('nameStartsWith')
         if (text) {
+            textLast =`&nameStartsWith=${text}`
             urlInit += `&nameStartsWith=${text}`
         }
     }
+    let textLastPage = textLast ? textLast : ''
     let urlAPI = urlInit;
     console.log(urlAPI);
     fetch(urlAPI)
@@ -55,7 +59,7 @@ const fetchFunction = (offset: number, type: string) => {
             const cards = json.data.results;
             const lastPageNumber: number = (Math.ceil(totalResults / limit)) - 1;
             displayTotalResults(totalResults, results);
-            lastPage(lastPageNumber, type);
+            lastPage(lastPageNumber, type, sort, textLastPage);
             showHiddeBackwardBtn(offset);
             showHiddeFordwardBtn(lastPageNumber);
             displayCards(cards, type)
@@ -100,8 +104,8 @@ const nextPage = () => {
 }
 nextBtn.addEventListener("click", nextPage);
 
-const lastPage = (page: number, type: string) => {
-    anchorLastPageBtn.setAttribute("href", `./index.html?page=${page}&type=${type}`);
+const lastPage = (page: number, type: string, sort: string, text: string) => {
+    anchorLastPageBtn.setAttribute("href", `./index.html?page=${page}&type=${type}&orderBy=${sort}${text}`);
 }
 
 const prevPage = () => {
