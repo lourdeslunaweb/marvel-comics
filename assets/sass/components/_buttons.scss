@@ -17,25 +17,26 @@
 .index-btn-div{
     @include flex-center;
     margin-bottom: $margin-l;
-    .index-button{
-        background-color: $tertiary;
-        border: 2.5px solid white;
-        color: $tertiary;
-        border-radius: $border-rounded;
-        font-family: 'Roboto', sans-serif;
-        font-size: 1rem;
-        font-weight: 700;
-        @include flex-center;
-        &:hover {
+    a{
+        color:white; 
+        text-decoration: none;
+        &:hover{
             color: $tertiary;
-            background-color: $red-hover;
-            border: 2.5px solid $tertiary;
         }
-        a{
-            color:white; 
-            text-decoration: none;
-            &:hover{
+        .index-button{
+            background-color: $tertiary;
+            border: 2.5px solid white;
+            color: white;
+            border-radius: $border-rounded;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: $padding-s;
+            @include flex-center;
+            &:hover {
                 color: $tertiary;
+                background-color: $red-hover;
+                border: 2.5px solid $tertiary;
             }
         }
     }

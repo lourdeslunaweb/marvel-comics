@@ -37,13 +37,15 @@
                 <select name="" id="sort-filter">
                     <option value="a-z">A-Z</option>
                     <option value="z-a">Z-A</option>
+                    <option value="mas-nuevos" id="newer">Más nuevos</option>
+                    <option value="mas-viejos" id="older">Más viejos</option>
                 </select>
             </div>
             <button type="button" class="search-button" id="search-button">Buscar</button>
         </div>
     </section>
     <div class="index-btn-div">
-        <button class="index-button"><a href="./index.html">Inicio</a></button>
+        <a href="./index.html"><button class="index-button">Inicio</button></a>
     </div>
     <section id="card-data-container" class="card-data-container">
         <div class="card-data" id="card-data">
@@ -55,14 +57,15 @@
     </section>
     <section id="cards-below-section" class="marvel-cards">
     </section>
-    <section id="turn-page" class="turn-page-btn">
+    <!-- BOTONERA DATA BELOW -->
+    <section id="keypad-below" class="turn-page-btn">
         <div class="backward-btn-div">
-            <button type="button" class="pass-button">⏪</button>
-            <button type="button" class="pass-button">◀️</button>
+            <button type="button" class="pass-button" id="first-page-btn-below">⏪</button>
+            <button type="button" class="pass-button" id="prev-btn-below">◀️</button>
         </div>
         <div class="fordward-btn-div">
-            <button type="button" class="pass-button">▶️</button>
-            <button type="button" class="pass-button">⏩</button>
+            <button type="button" class="pass-button"  id="next-btn-below">▶️</button>
+            <button type="button" class="pass-button" id="last-page-btn-below"><a id= "anchor-last-page-btn-below">⏩</a></button>
         </div>
     </section>
     <footer>

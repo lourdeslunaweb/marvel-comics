@@ -47,7 +47,6 @@ var fetchFunction = function (offset, type) {
     }
     var textLastPage = textLast ? textLast : '';
     var urlAPI = urlInit;
-    console.log(urlAPI);
     fetch(urlAPI)
         .then(function (res) { return res.json(); })
         .then(function (json) {
@@ -68,7 +67,7 @@ var displayCards = function (cards, type) {
         var thumbPath = card.thumbnail.path ? card.thumbnail.path : "https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953";
         var thumbExtension = card.thumbnail.extension ? card.thumbnail.extension : "jpg";
         var cardTitle = card.title ? card.title : card.name;
-        var hrefData = "./data.html?type=" + type + "&id=" + card.id;
+        var hrefData = "./data.html?type=" + type + "&id=" + card.id + "&page=0";
         contentHTML += "\n    <div class=\"card-div\">\n        <a href=\"" + hrefData + "\">\n            <img src=\"" + thumbPath + "." + thumbExtension + "\" alt=\"" + cardTitle + "\"  class=\"card-home\">\n        </a>\n        <h3>" + cardTitle + "</h3>\n    </div>";
     }
     marvelCards.innerHTML = contentHTML;
