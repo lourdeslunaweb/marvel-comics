@@ -51,7 +51,6 @@ const fetchFunction = (offset: number, type: string) => {
     }
     let textLastPage = textLast ? textLast : ''
     let urlAPI = urlInit;
-    console.log(urlAPI);
     fetch(urlAPI)
         .then(res => res.json())
         .then((json) => {
@@ -72,7 +71,7 @@ const displayCards = (cards: Card[], type: string) => {
         let thumbPath = card.thumbnail.path ? card.thumbnail.path : "https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953"
         let thumbExtension = card.thumbnail.extension ? card.thumbnail.extension : "jpg"
         let cardTitle = card.title ? card.title : card.name;
-        let hrefData = `./data.html?type=${type}&id=${card.id}`;
+        let hrefData = `./data.html?type=${type}&id=${card.id}&page=0`;
         contentHTML += `
     <div class="card-div">
         <a href="${hrefData}">

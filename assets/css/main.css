@@ -30,26 +30,27 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 2rem; }
-  .index-btn-div .index-button {
-    background-color: #161a1d;
-    border: 2.5px solid white;
-    color: #161a1d;
-    border-radius: 0.2rem;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-    .index-btn-div .index-button:hover {
-      color: #161a1d;
-      background-color: #E5383B;
-      border: 2.5px solid #161a1d; }
-    .index-btn-div .index-button a {
+  .index-btn-div a {
+    color: white;
+    text-decoration: none; }
+    .index-btn-div a:hover {
+      color: #161a1d; }
+    .index-btn-div a .index-button {
+      background-color: #161a1d;
+      border: 2.5px solid white;
       color: white;
-      text-decoration: none; }
-      .index-btn-div .index-button a:hover {
-        color: #161a1d; }
+      border-radius: 0.2rem;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .index-btn-div a .index-button:hover {
+        color: #161a1d;
+        background-color: #E5383B;
+        border: 2.5px solid #161a1d; }
 
 .turn-page-btn {
   display: flex;
