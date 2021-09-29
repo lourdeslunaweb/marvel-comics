@@ -1,63 +1,67 @@
-.search-box-container{
+.search-box-container {
     @include flex-center;
     @include title;
     flex-direction: column;
     padding: $padding-s;
     .search-line {
-        background-color: $tertiary;
-        height: 6rem;
         width: 100%;
-        padding: $padding-s;
-        border-radius: $border-pill;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-        align-items: center;
-        @include labels-text;
-        .search-text {
-            input {
-                width: 30vw;
-                padding: 0 0.8rem;
+        form {
+            background-color: $tertiary;
+            height: 6rem;
+            padding: $padding-s;
+            border-radius: $border-pill;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+            @include labels-text;
+            .search-text {
+                input {
+                    width: 30vw;
+                    padding: 0 0.8rem;
+                }
             }
-        }
-        input,
-        select {
-            height: 2.5rem;
-            font-size: 1rem;
-            border: 0;
-            border-radius: $border-rounded;
-        }
-        .type-filter {
+            input,
             select {
-                padding: 0 0.8rem;
+                height: 2.5rem;
+                font-size: 1rem;
+                border: 0;
+                border-radius: $border-rounded;
             }
-            label{
-                margin-right: $margin-xs;
+            .type-filter {
+                select {
+                    padding: 0 0.8rem;
+                }
+                label {
+                    margin-right: $margin-xs;
+                }
             }
-        }
-        .order-filter {
-            select {
-                padding: 0 0.8rem;
-            }
-            label{
-                margin-right: $margin-xs;
+            .order-filter {
+                select {
+                    padding: 0 0.8rem;
+                }
+                label {
+                    margin-right: $margin-xs;
+                }
             }
         }
     }
 }
 
 @media screen and (max-width: 780px) {
-    .search-box-container{
+    .search-box-container {
         height: 14rem;
         .search-line {
-            height: 10rem;
-            display: flex;
-            flex-wrap: wrap;
-            @include labels-text;
-            .search-text {
-                input {
-                    width: 50vw;
-                    padding: 0 0.8rem;
+            form {
+                height: 10rem;
+                display: flex;
+                flex-wrap: wrap;
+                @include labels-text;
+                .search-text {
+                    input {
+                        width: 50vw;
+                        padding: 0 0.8rem;
+                    }
                 }
             }
         }
@@ -65,55 +69,59 @@
 }
 
 @media screen and (max-width: 540px) {
-    .search-box-container{
+    .search-box-container {
         .search-line {
-            height: 12rem;
-            @include labels-text;
-            .search-text {
-                input {
-                    width: 83vw;
-                    padding: 0 0.8rem;
+            form {
+                height: 12rem;
+                @include labels-text;
+                .search-text {
+                    input {
+                        width: 83vw;
+                        padding: 0 0.8rem;
+                    }
                 }
-            }
-            .type-filter{
-                margin-top: $margin-s;
-                @include flex-center;
-            }
-            .order-filter{
-                margin-top: $margin-s;
-                @include flex-center;
-            }
-            button{
-                margin-top: $margin-m;
+                .type-filter {
+                    margin-top: $margin-s;
+                    @include flex-center;
+                }
+                .order-filter {
+                    margin-top: $margin-s;
+                    @include flex-center;
+                }
+                button {
+                    margin-top: $margin-m;
+                }
             }
         }
     }
 }
 
 @media screen and (max-width: 350px) {
-    .search-box-container{
+    .search-box-container {
         height: 18rem;
         .search-line {
-            height: 16rem;
-            display: flex;
-            flex-wrap: wrap;
-            @include labels-text;
-            .search-text {
-                input {
-                    width: 75vw;
-                    padding: 0 0.8rem;
+            form {
+                height: 16rem;
+                display: flex;
+                flex-wrap: wrap;
+                @include labels-text;
+                .search-text {
+                    input {
+                        width: 75vw;
+                        padding: 0 0.8rem;
+                    }
                 }
-            }
-            .type-filter{
-                margin-top: $margin-s;
-                @include flex-center;
-            }
-            .order-filter{
-                margin-top: $margin-s;
-                @include flex-center;
-            }
-            button{
-                margin-top: $margin-m;
+                .type-filter {
+                    margin-top: $margin-s;
+                    @include flex-center;
+                }
+                .order-filter {
+                    margin-top: $margin-s;
+                    @include flex-center;
+                }
+                button {
+                    margin-top: $margin-m;
+                }
             }
         }
     }

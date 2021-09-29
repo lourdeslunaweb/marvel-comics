@@ -2,19 +2,20 @@
 // *** Display cards in index.html ***
 // ***********************************
 
-// *** Params Index ***
-const paramsIndex = new URLSearchParams(window.location.search);
+// *** Params ***
+const params = new URLSearchParams(window.location.search);
 
 // *** Set variables ***
 const baseUrl: string = "https://gateway.marvel.com:443/v1/public/";
 const apiKey: string = "06e295e3c238e43e31ef140c424be15b";
 const hash: string = "1eee8ff490d4a973b65d6f613e9569ff";
 const limit = 20;
-let offset = limit * (Number(paramsIndex.get('page')));
+let offset = limit * (Number(params.get('page')));
 let contentHTML = "";
 
 
 // *** Nodes ***
+const searchForm = document.getElementById("search-form");
 const typeFilter = document.getElementById("type-filter");
 const newerItem = document.getElementById("newer");
 const olderItem = document.getElementById("older");
@@ -31,19 +32,19 @@ const anchorLastPageBtn = document.getElementById("anchor-last-page-btn");
 
 // *** Fetch Function of Index ***
 const fetchFunction = (offset: number, type: string) => {
-    let sort = paramsIndex.get('orderBy') ? paramsIndex.get('orderBy') : 'title';
+    let sort = params.get('orderBy') ? params.get('orderBy') : 'title';
     contentHTML = "";
     let urlInit = `${baseUrl}${type}?ts=1&apikey=${apiKey}&hash=${hash}&limit=${limit}&offset=${offset}&orderBy=${sort}`;
-    let text;
-    let textLast;
+    let text: string;
+    let textLast: string;
     if (type === "comics") {
-        text = paramsIndex.get('titleStartsWith')
+        text = params.get('titleStartsWith')
         if (text) {
             textLast = `&titleStartsWith=${text}`
             urlInit += `&titleStartsWith=${text}`
         }
     } else if (type === "characters") {
-        text = paramsIndex.get('nameStartsWith')
+        text = params.get('nameStartsWith')
         if (text) {
             textLast =`&nameStartsWith=${text}`
             urlInit += `&nameStartsWith=${text}`
@@ -84,7 +85,7 @@ const displayCards = (cards: Card[], type: string) => {
 }
 
 // *** Display Totals Results of fetch ***
-const displayTotalResults = (result: number, node) => {
+const displayTotalResults = (result: number, node: HTMLElement) => {
     node.innerText = `${result} resultados`;
 }
 
@@ -93,14 +94,15 @@ const displayTotalResults = (result: number, node) => {
 // ***********************************
 
 const nextPage = () => {
-    let page = Number(paramsIndex.get('page'));
+    let page = Number(params.get('page'));
     if (!page) {
-        paramsIndex.set('page', '1')
+        params.set('page', '1')
     } else {
-        paramsIndex.set('page', (page + 1).toString())
+        params.set('page', (page + 1).toString())
     }
-    window.location.href = 'index.html?' + paramsIndex;
+    window.location.href = 'index.html?' + params;
 }
+if(nextBtn)
 nextBtn.addEventListener("click", nextPage);
 
 const lastPage = (page: number, type: string, sort: string, text: string) => {
@@ -108,20 +110,22 @@ const lastPage = (page: number, type: string, sort: string, text: string) => {
 }
 
 const prevPage = () => {
-    let page = Number(paramsIndex.get('page'));
+    let page = Number(params.get('page'));
     if (!page) {
-        paramsIndex.set('page', '1')
+        params.set('page', '1')
     } else {
-        paramsIndex.set('page', (page - 1).toString())
+        params.set('page', (page - 1).toString())
     }
-    window.location.href = 'index.html?' + paramsIndex;
+    window.location.href = 'index.html?' + params;
 }
+if(prevBtn)
 prevBtn.addEventListener("click", prevPage);
 
 const firstPage = () => {
-    paramsIndex.set('page', (0).toString());
-    window.location.href = 'index.html?' + paramsIndex;
+    params.set('page', (0).toString());
+    window.location.href = 'index.html?' + params;
 }
+if(firstPageBtn)
 firstPageBtn.addEventListener("click", firstPage);
 
 // *** Show or hidde Barckward Btn (firstPageBtn and prevBtn) ***
@@ -137,7 +141,7 @@ const showHiddeBackwardBtn = (offset: number) => {
 
 // *** Show or Hidde Forward Btn (lastPageBtn and nextBtn) ***
 const showHiddeFordwardBtn = (page: number) => {
-    const pageNumFromParam: number = Number(paramsIndex.get('page'));
+    const pageNumFromParam: number = Number(params.get('page'));
     if (pageNumFromParam === page) {
         nextBtn.classList.add("hidden");
         lastPageBtn.classList.add("hidden");
@@ -152,7 +156,7 @@ const showHiddeFordwardBtn = (page: number) => {
 // ***************
 
 // *** Update order filter by types (comics or characters) ***
-const updateOrderFilter = () => {
+const updateOrderFilter = (e: any) => {
     if (typeFilter.value === "characters") {
         newerItem.classList.add("hidden")
         olderItem.classList.add("hidden")
@@ -164,7 +168,7 @@ const updateOrderFilter = () => {
 typeFilter.addEventListener("change", updateOrderFilter);
 
 // *** Slugify helper ***
-const slugify = (text) => {
+const slugify = (text: { toString: () => string; }) => {
     return text.toString().toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^\w\-]+/g, '')
@@ -174,42 +178,45 @@ const slugify = (text) => {
 }
 
 // *** Set filters in params ***
-const filters = () => {
+const filters = (e) => {
+    e.preventDefault()
+    const form = e.target;
     // page
-    paramsIndex.delete('page');
+    params.delete('page');
     // type
-    const searchType = typeFilter.value;
-    paramsIndex.set('type', searchType);
+    const searchType = form.type_filter.value;
+    params.set('type', searchType);
     // text
-    const searchText = searchInput.value;
+    const searchText = form.text.value;
     const searchTextSlugify = slugify(searchText);
     if (searchType === "comics") {
-        paramsIndex.set('titleStartsWith', searchTextSlugify);
+        params.set('titleStartsWith', searchTextSlugify);
     } else if (searchType === "characters") {
-        paramsIndex.set('nameStartsWith', searchTextSlugify);
+        params.set('nameStartsWith', searchTextSlugify);
     } else { }
     // sort
-    const searchSort = sortFilter.value;
+    const searchSort = form.sort_filter.value;
     if (searchType === "comics") {
         if (searchSort === "a-z") {
-            paramsIndex.set('orderBy', 'title');
+            params.set('orderBy', 'title');
         } else if (searchSort === "z-a") {
-            paramsIndex.set('orderBy', '-title');
+            params.set('orderBy', '-title');
         } else if (searchSort === "mas-nuevos") {
-            paramsIndex.set('orderBy', '-focDate');
+            params.set('orderBy', '-focDate');
         } else if (searchSort === "mas-viejos") {
-            paramsIndex.set('orderBy', 'focDate');
+            params.set('orderBy', 'focDate');
         }
     } else if (searchType === "characters") {
         if (searchSort === "a-z") {
-            paramsIndex.set('orderBy', 'name');
+            params.set('orderBy', 'name');
         } else if (searchSort === "z-a") {
-            paramsIndex.set('orderBy', '-name');
+            params.set('orderBy', '-name');
         }
     }
-    window.location.href = 'index.html?' + paramsIndex;
+    window.location.href = 'index.html?' + params;
 }
-searchBtn.addEventListener("click", filters)
+if(searchForm)
+searchForm.addEventListener("submit", filters)
 
 
 // **************************************

@@ -2,8 +2,8 @@
 // *** Display selected card in data.html ***
 // *******************************************
 //Params Data
-var paramsData = new URLSearchParams(window.location.search);
-console.log(paramsIndex.toString());
+// const params = new URLSearchParams(window.location.search);
+// console.log(params.toString());
 //Nodes
 var cardData = document.getElementById("card-data");
 var subTitleBelow = document.getElementById("subtitle-below");
@@ -123,23 +123,23 @@ var showHiddeKeypadBelow = function (total) {
     }
 };
 var nextPageBelow = function () {
-    var page = Number(paramsData.get('page'));
-    paramsData.set('page', (page + 1).toString());
-    window.location.href = 'data.html?' + paramsData;
+    var page = Number(params.get('page'));
+    params.set('page', (page + 1).toString());
+    window.location.href = 'data.html?' + params;
 };
 nextBtnBelow.addEventListener("click", nextPageBelow);
 var lastPageBelow = function (type, id, page) {
     anchorLastPageBtnBelow.setAttribute("href", "./data.html?type=" + type + "&id=" + id + "&page=" + page);
 };
 var prevPageBelow = function () {
-    var page = Number(paramsData.get('page'));
-    paramsData.set('page', (page - 1).toString());
-    window.location.href = 'data.html?' + paramsData;
+    var page = Number(params.get('page'));
+    params.set('page', (page - 1).toString());
+    window.location.href = 'data.html?' + params;
 };
 prevBtnBelow.addEventListener("click", prevPageBelow);
 var firstPageBelow = function () {
-    paramsData.set('page', (0).toString());
-    window.location.href = 'data.html?' + paramsData;
+    params.set('page', (0).toString());
+    window.location.href = 'data.html?' + params;
 };
 firstPageBtnBelow.addEventListener("click", firstPageBelow);
 // *** Show or hidde Barckward Btn Below (firstPageBtn and prevBtn) ***
@@ -155,7 +155,7 @@ var showHiddeBackwardBtnBelow = function (offset) {
 };
 // *** Show or Hidde Forward Btn Below (lastPageBtn and nextBtn) ***
 var showHiddeFordwardBtnBelow = function (page) {
-    var pageNumFromParam = Number(paramsData.get('page'));
+    var pageNumFromParam = Number(params.get('page'));
     if (pageNumFromParam === page) {
         nextBtnBelow.classList.add("hidden");
         lastPageBtnBelow.classList.add("hidden");

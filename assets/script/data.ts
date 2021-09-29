@@ -3,8 +3,8 @@
 // *******************************************
 
 //Params Data
-const paramsData = new URLSearchParams(window.location.search);
-console.log(paramsIndex.toString());
+// const params = new URLSearchParams(window.location.search);
+// console.log(params.toString());
 
 //Nodes
 const cardData = document.getElementById("card-data");
@@ -151,9 +151,9 @@ const showHiddeKeypadBelow = (total: number) => {
 }
 
 const nextPageBelow = () => {
-    let page = Number(paramsData.get('page'));
-    paramsData.set('page', (page + 1).toString())
-    window.location.href = 'data.html?' + paramsData;
+    let page = Number(params.get('page'));
+    params.set('page', (page + 1).toString())
+    window.location.href = 'data.html?' + params;
 }
 nextBtnBelow.addEventListener("click", nextPageBelow);
 
@@ -162,15 +162,15 @@ const lastPageBelow = (type: string, id: string, page: number, ) => {
 }
 
 const prevPageBelow = () => {
-    let page = Number(paramsData.get('page'));
-    paramsData.set('page', (page - 1).toString())
-    window.location.href = 'data.html?' + paramsData;
+    let page = Number(params.get('page'));
+    params.set('page', (page - 1).toString())
+    window.location.href = 'data.html?' + params;
 }
 prevBtnBelow.addEventListener("click", prevPageBelow);
 
 const firstPageBelow = () => {
-    paramsData.set('page', (0).toString());
-    window.location.href = 'data.html?' + paramsData;
+    params.set('page', (0).toString());
+    window.location.href = 'data.html?' + params;
 }
 firstPageBtnBelow.addEventListener("click", firstPageBelow);
 
@@ -187,7 +187,7 @@ const showHiddeBackwardBtnBelow = (offset: number) => {
 
 // *** Show or Hidde Forward Btn Below (lastPageBtn and nextBtn) ***
 const showHiddeFordwardBtnBelow = (page: number) => {
-    const pageNumFromParam: number = Number(paramsData.get('page'));
+    const pageNumFromParam: number = Number(params.get('page'));
     if (pageNumFromParam === page) {
         nextBtnBelow.classList.add("hidden");
         lastPageBtnBelow.classList.add("hidden");

@@ -237,41 +237,42 @@ footer {
   flex-direction: column;
   padding: 1rem; }
   .search-box-container .search-line {
-    background-color: #161a1d;
-    height: 6rem;
-    width: 100%;
-    padding: 1rem;
-    border-radius: 0.6rem;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.7em;
-    font-weight: 500;
-    color: white; }
-    .search-box-container .search-line .search-text input {
-      width: 30vw;
-      padding: 0 0.8rem; }
-    .search-box-container .search-line input,
-    .search-box-container .search-line select {
-      height: 2.5rem;
-      font-size: 1rem;
-      border: 0;
-      border-radius: 0.2rem; }
-    .search-box-container .search-line .type-filter select {
-      padding: 0 0.8rem; }
-    .search-box-container .search-line .type-filter label {
-      margin-right: 0.5rem; }
-    .search-box-container .search-line .order-filter select {
-      padding: 0 0.8rem; }
-    .search-box-container .search-line .order-filter label {
-      margin-right: 0.5rem; }
+    width: 100%; }
+    .search-box-container .search-line form {
+      background-color: #161a1d;
+      height: 6rem;
+      padding: 1rem;
+      border-radius: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      align-items: center;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.7em;
+      font-weight: 500;
+      color: white; }
+      .search-box-container .search-line form .search-text input {
+        width: 30vw;
+        padding: 0 0.8rem; }
+      .search-box-container .search-line form input,
+      .search-box-container .search-line form select {
+        height: 2.5rem;
+        font-size: 1rem;
+        border: 0;
+        border-radius: 0.2rem; }
+      .search-box-container .search-line form .type-filter select {
+        padding: 0 0.8rem; }
+      .search-box-container .search-line form .type-filter label {
+        margin-right: 0.5rem; }
+      .search-box-container .search-line form .order-filter select {
+        padding: 0 0.8rem; }
+      .search-box-container .search-line form .order-filter label {
+        margin-right: 0.5rem; }
 
 @media screen and (max-width: 780px) {
   .search-box-container {
     height: 14rem; }
-    .search-box-container .search-line {
+    .search-box-container .search-line form {
       height: 10rem;
       display: flex;
       flex-wrap: wrap;
@@ -279,37 +280,37 @@ footer {
       font-size: 0.7em;
       font-weight: 500;
       color: white; }
-      .search-box-container .search-line .search-text input {
+      .search-box-container .search-line form .search-text input {
         width: 50vw;
         padding: 0 0.8rem; } }
 
 @media screen and (max-width: 540px) {
-  .search-box-container .search-line {
+  .search-box-container .search-line form {
     height: 12rem;
     font-family: 'Roboto', sans-serif;
     font-size: 0.7em;
     font-weight: 500;
     color: white; }
-    .search-box-container .search-line .search-text input {
+    .search-box-container .search-line form .search-text input {
       width: 83vw;
       padding: 0 0.8rem; }
-    .search-box-container .search-line .type-filter {
+    .search-box-container .search-line form .type-filter {
       margin-top: 1rem;
       display: flex;
       justify-content: center;
       align-items: center; }
-    .search-box-container .search-line .order-filter {
+    .search-box-container .search-line form .order-filter {
       margin-top: 1rem;
       display: flex;
       justify-content: center;
       align-items: center; }
-    .search-box-container .search-line button {
+    .search-box-container .search-line form button {
       margin-top: 1.5rem; } }
 
 @media screen and (max-width: 350px) {
   .search-box-container {
     height: 18rem; }
-    .search-box-container .search-line {
+    .search-box-container .search-line form {
       height: 16rem;
       display: flex;
       flex-wrap: wrap;
@@ -317,20 +318,20 @@ footer {
       font-size: 0.7em;
       font-weight: 500;
       color: white; }
-      .search-box-container .search-line .search-text input {
+      .search-box-container .search-line form .search-text input {
         width: 75vw;
         padding: 0 0.8rem; }
-      .search-box-container .search-line .type-filter {
+      .search-box-container .search-line form .type-filter {
         margin-top: 1rem;
         display: flex;
         justify-content: center;
         align-items: center; }
-      .search-box-container .search-line .order-filter {
+      .search-box-container .search-line form .order-filter {
         margin-top: 1rem;
         display: flex;
         justify-content: center;
         align-items: center; }
-      .search-box-container .search-line button {
+      .search-box-container .search-line form button {
         margin-top: 1.5rem; } }
 
 * {
