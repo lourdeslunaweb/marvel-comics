@@ -20,27 +20,29 @@
     </header>
     <section class="search-box-container">
         <div class="search-line">
-            <div class="search-text">
-                <input id="search-input" type="text" placeholder="🔍 Ingresá tu búsqueda"
-                    aria-placeholder="Ingresá tu búsqueda">
-            </div>
-            <div class="type-filter">
-                <label for="" aria-labelledby="Tipo de búsqueda">Tipo</label>
-                <select name="" id="type-filter">
-                    <option value="comics">💥Comics</option>
-                    <option value="characters">🦹Personajes</option>
-                </select>
-            </div>
-            <div class="order-filter">
-                <label for="" aria-labelledby="Orden de la búsqueda">Orden</label>
-                <select name="" id="sort-filter">
-                    <option value="a-z">A-Z</option>
-                    <option value="z-a">Z-A</option>
-                    <option value="mas-nuevos" id="newer">Más nuevos</option>
-                    <option value="mas-viejos" id="older">Más viejos</option>
-                </select>
-            </div>
-            <button type="button" class="search-button" id="search-button">Buscar</button>
+            <form id="search-form">
+                <div class="search-text">
+                    <input id="search-input" name = "text" type="text" placeholder="🔍 Ingresá tu búsqueda"
+                        aria-placeholder="Ingresá tu búsqueda">
+                </div>
+                <div class="type-filter">
+                    <label for="" aria-labelledby="Tipo de búsqueda">Tipo</label>
+                    <select name="type_filter" id="type-filter">
+                        <option value="comics">💥Comics</option>
+                        <option value="characters">🦹Personajes</option>
+                    </select>
+                </div>
+                <div class="order-filter">
+                    <label for="" aria-labelledby="Orden de la búsqueda">Orden</label>
+                    <select name="sort_filter" id="sort-filter">
+                        <option value="a-z">A-Z</option>
+                        <option value="z-a">Z-A</option>
+                        <option value="mas-nuevos" id="newer">Más nuevos</option>
+                        <option value="mas-viejos" id="older">Más viejos</option>
+                    </select>
+                </div>
+                <button type="submit" class="search-button" id="search-button">Buscar</button>
+            </form>
         </div>
     </section>
     <h2>Resultados</h2>
@@ -54,7 +56,7 @@
         </div>
         <div class="fordward-btn-div">
             <button type="button" class="pass-button" id="next-btn">▶️</button>
-            <button type="button" class="pass-button" id="last-page-btn"><a id= "anchor-last-page-btn">⏩</a></button>
+            <button type="button" class="pass-button" id="last-page-btn"><a id="anchor-last-page-btn">⏩</a></button>
         </div>
     </section>
     <footer>

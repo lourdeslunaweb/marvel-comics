@@ -1,16 +1,17 @@
 // ***********************************
 // *** Display cards in index.html ***
 // ***********************************
-// *** Params Index ***
-var paramsIndex = new URLSearchParams(window.location.search);
+// *** Params ***
+var params = new URLSearchParams(window.location.search);
 // *** Set variables ***
 var baseUrl = "https://gateway.marvel.com:443/v1/public/";
 var apiKey = "06e295e3c238e43e31ef140c424be15b";
 var hash = "1eee8ff490d4a973b65d6f613e9569ff";
 var limit = 20;
-var offset = limit * (Number(paramsIndex.get('page')));
+var offset = limit * (Number(params.get('page')));
 var contentHTML = "";
 // *** Nodes ***
+var searchForm = document.getElementById("search-form");
 var typeFilter = document.getElementById("type-filter");
 var newerItem = document.getElementById("newer");
 var olderItem = document.getElementById("older");
@@ -26,20 +27,20 @@ var lastPageBtn = document.getElementById("last-page-btn");
 var anchorLastPageBtn = document.getElementById("anchor-last-page-btn");
 // *** Fetch Function of Index ***
 var fetchFunction = function (offset, type) {
-    var sort = paramsIndex.get('orderBy') ? paramsIndex.get('orderBy') : 'title';
+    var sort = params.get('orderBy') ? params.get('orderBy') : 'title';
     contentHTML = "";
     var urlInit = "" + baseUrl + type + "?ts=1&apikey=" + apiKey + "&hash=" + hash + "&limit=" + limit + "&offset=" + offset + "&orderBy=" + sort;
     var text;
     var textLast;
     if (type === "comics") {
-        text = paramsIndex.get('titleStartsWith');
+        text = params.get('titleStartsWith');
         if (text) {
             textLast = "&titleStartsWith=" + text;
             urlInit += "&titleStartsWith=" + text;
         }
     }
     else if (type === "characters") {
-        text = paramsIndex.get('nameStartsWith');
+        text = params.get('nameStartsWith');
         if (text) {
             textLast = "&nameStartsWith=" + text;
             urlInit += "&nameStartsWith=" + text;
@@ -80,35 +81,38 @@ var displayTotalResults = function (result, node) {
 // *** Pagination Btn in index.html***
 // ***********************************
 var nextPage = function () {
-    var page = Number(paramsIndex.get('page'));
+    var page = Number(params.get('page'));
     if (!page) {
-        paramsIndex.set('page', '1');
+        params.set('page', '1');
     }
     else {
-        paramsIndex.set('page', (page + 1).toString());
+        params.set('page', (page + 1).toString());
     }
-    window.location.href = 'index.html?' + paramsIndex;
+    window.location.href = 'index.html?' + params;
 };
-nextBtn.addEventListener("click", nextPage);
+if (nextBtn)
+    nextBtn.addEventListener("click", nextPage);
 var lastPage = function (page, type, sort, text) {
     anchorLastPageBtn.setAttribute("href", "./index.html?page=" + page + "&type=" + type + "&orderBy=" + sort + text);
 };
 var prevPage = function () {
-    var page = Number(paramsIndex.get('page'));
+    var page = Number(params.get('page'));
     if (!page) {
-        paramsIndex.set('page', '1');
+        params.set('page', '1');
     }
     else {
-        paramsIndex.set('page', (page - 1).toString());
+        params.set('page', (page - 1).toString());
     }
-    window.location.href = 'index.html?' + paramsIndex;
+    window.location.href = 'index.html?' + params;
 };
-prevBtn.addEventListener("click", prevPage);
+if (prevBtn)
+    prevBtn.addEventListener("click", prevPage);
 var firstPage = function () {
-    paramsIndex.set('page', (0).toString());
-    window.location.href = 'index.html?' + paramsIndex;
+    params.set('page', (0).toString());
+    window.location.href = 'index.html?' + params;
 };
-firstPageBtn.addEventListener("click", firstPage);
+if (firstPageBtn)
+    firstPageBtn.addEventListener("click", firstPage);
 // *** Show or hidde Barckward Btn (firstPageBtn and prevBtn) ***
 var showHiddeBackwardBtn = function (offset) {
     if (offset === 0) {
@@ -122,7 +126,7 @@ var showHiddeBackwardBtn = function (offset) {
 };
 // *** Show or Hidde Forward Btn (lastPageBtn and nextBtn) ***
 var showHiddeFordwardBtn = function (page) {
-    var pageNumFromParam = Number(paramsIndex.get('page'));
+    var pageNumFromParam = Number(params.get('page'));
     if (pageNumFromParam === page) {
         nextBtn.classList.add("hidden");
         lastPageBtn.classList.add("hidden");
@@ -136,7 +140,7 @@ var showHiddeFordwardBtn = function (page) {
 // *** Filters ***
 // ***************
 // *** Update order filter by types (comics or characters) ***
-var updateOrderFilter = function () {
+var updateOrderFilter = function (e) {
     if (typeFilter.value === "characters") {
         newerItem.classList.add("hidden");
         olderItem.classList.add("hidden");
@@ -157,49 +161,52 @@ var slugify = function (text) {
         .replace(/-+$/, '');
 };
 // *** Set filters in params ***
-var filters = function () {
+var filters = function (e) {
+    e.preventDefault();
+    var form = e.target;
     // page
-    paramsIndex["delete"]('page');
+    params["delete"]('page');
     // type
-    var searchType = typeFilter.value;
-    paramsIndex.set('type', searchType);
+    var searchType = form.type_filter.value;
+    params.set('type', searchType);
     // text
-    var searchText = searchInput.value;
+    var searchText = form.text.value;
     var searchTextSlugify = slugify(searchText);
     if (searchType === "comics") {
-        paramsIndex.set('titleStartsWith', searchTextSlugify);
+        params.set('titleStartsWith', searchTextSlugify);
     }
     else if (searchType === "characters") {
-        paramsIndex.set('nameStartsWith', searchTextSlugify);
+        params.set('nameStartsWith', searchTextSlugify);
     }
     else { }
     // sort
-    var searchSort = sortFilter.value;
+    var searchSort = form.sort_filter.value;
     if (searchType === "comics") {
         if (searchSort === "a-z") {
-            paramsIndex.set('orderBy', 'title');
+            params.set('orderBy', 'title');
         }
         else if (searchSort === "z-a") {
-            paramsIndex.set('orderBy', '-title');
+            params.set('orderBy', '-title');
         }
         else if (searchSort === "mas-nuevos") {
-            paramsIndex.set('orderBy', '-focDate');
+            params.set('orderBy', '-focDate');
         }
         else if (searchSort === "mas-viejos") {
-            paramsIndex.set('orderBy', 'focDate');
+            params.set('orderBy', 'focDate');
         }
     }
     else if (searchType === "characters") {
         if (searchSort === "a-z") {
-            paramsIndex.set('orderBy', 'name');
+            params.set('orderBy', 'name');
         }
         else if (searchSort === "z-a") {
-            paramsIndex.set('orderBy', '-name');
+            params.set('orderBy', '-name');
         }
     }
-    window.location.href = 'index.html?' + paramsIndex;
+    window.location.href = 'index.html?' + params;
 };
-searchBtn.addEventListener("click", filters);
+if (searchForm)
+    searchForm.addEventListener("submit", filters);
 // **************************************
 // *** Initial function of index.html ***
 // **************************************
