@@ -155,6 +155,7 @@ const nextPageBelow = () => {
     params.set('page', (page + 1).toString())
     window.location.href = 'data.html?' + params;
 }
+// if(nextBtnBelow)
 nextBtnBelow.addEventListener("click", nextPageBelow);
 
 const lastPageBelow = (type: string, id: string, page: number, ) => {
@@ -166,12 +167,14 @@ const prevPageBelow = () => {
     params.set('page', (page - 1).toString())
     window.location.href = 'data.html?' + params;
 }
+// if(prevBtnBelow)
 prevBtnBelow.addEventListener("click", prevPageBelow);
 
 const firstPageBelow = () => {
     params.set('page', (0).toString());
     window.location.href = 'data.html?' + params;
 }
+// if(firstPageBtnBelow)
 firstPageBtnBelow.addEventListener("click", firstPageBelow);
 
 // *** Show or hidde Barckward Btn Below (firstPageBtn and prevBtn) ***
@@ -209,3 +212,10 @@ const initData = () => {
     displaySelectedCard(type, id, page)
 }
 initData()
+
+
+//-------------GO BACK PARAMETERS------------------
+// const goBack= document.createElement('a');
+// goBack.innerHTML="Volver";
+// goBack.setAttribute('href', "javascript:history.back()");
+// goBack.classList.add('go-back');  

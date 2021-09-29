@@ -127,6 +127,7 @@ var nextPageBelow = function () {
     params.set('page', (page + 1).toString());
     window.location.href = 'data.html?' + params;
 };
+// if(nextBtnBelow)
 nextBtnBelow.addEventListener("click", nextPageBelow);
 var lastPageBelow = function (type, id, page) {
     anchorLastPageBtnBelow.setAttribute("href", "./data.html?type=" + type + "&id=" + id + "&page=" + page);
@@ -136,11 +137,13 @@ var prevPageBelow = function () {
     params.set('page', (page - 1).toString());
     window.location.href = 'data.html?' + params;
 };
+// if(prevBtnBelow)
 prevBtnBelow.addEventListener("click", prevPageBelow);
 var firstPageBelow = function () {
     params.set('page', (0).toString());
     window.location.href = 'data.html?' + params;
 };
+// if(firstPageBtnBelow)
 firstPageBtnBelow.addEventListener("click", firstPageBelow);
 // *** Show or hidde Barckward Btn Below (firstPageBtn and prevBtn) ***
 var showHiddeBackwardBtnBelow = function (offset) {
@@ -176,3 +179,8 @@ var initData = function () {
     displaySelectedCard(type, id, page);
 };
 initData();
+//-------------GO BACK PARAMETERS------------------
+// const goBack= document.createElement('a');
+// goBack.innerHTML="Volver";
+// goBack.setAttribute('href', "javascript:history.back()");
+// goBack.classList.add('go-back');  

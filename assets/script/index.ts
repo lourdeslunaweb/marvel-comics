@@ -46,7 +46,7 @@ const fetchFunction = (offset: number, type: string) => {
     } else if (type === "characters") {
         text = params.get('nameStartsWith')
         if (text) {
-            textLast =`&nameStartsWith=${text}`
+            textLast = `&nameStartsWith=${text}`
             urlInit += `&nameStartsWith=${text}`
         }
     }
@@ -102,8 +102,8 @@ const nextPage = () => {
     }
     window.location.href = 'index.html?' + params;
 }
-if(nextBtn)
-nextBtn.addEventListener("click", nextPage);
+if (nextBtn)
+    nextBtn.addEventListener("click", nextPage);
 
 const lastPage = (page: number, type: string, sort: string, text: string) => {
     anchorLastPageBtn.setAttribute("href", `./index.html?page=${page}&type=${type}&orderBy=${sort}${text}`);
@@ -118,15 +118,15 @@ const prevPage = () => {
     }
     window.location.href = 'index.html?' + params;
 }
-if(prevBtn)
-prevBtn.addEventListener("click", prevPage);
+if (prevBtn)
+    prevBtn.addEventListener("click", prevPage);
 
 const firstPage = () => {
     params.set('page', (0).toString());
     window.location.href = 'index.html?' + params;
 }
-if(firstPageBtn)
-firstPageBtn.addEventListener("click", firstPage);
+if (firstPageBtn)
+    firstPageBtn.addEventListener("click", firstPage);
 
 // *** Show or hidde Barckward Btn (firstPageBtn and prevBtn) ***
 const showHiddeBackwardBtn = (offset: number) => {
@@ -156,7 +156,7 @@ const showHiddeFordwardBtn = (page: number) => {
 // ***************
 
 // *** Update order filter by types (comics or characters) ***
-const updateOrderFilter = (e: any) => {
+const updateOrderFilter = (e) => {
     if (typeFilter.value === "characters") {
         newerItem.classList.add("hidden")
         olderItem.classList.add("hidden")
@@ -183,6 +183,17 @@ const filters = (e) => {
     const form = e.target;
     // page
     params.delete('page');
+    // id from data.html
+    if (params.get('id')) {
+        params.delete('id')
+    }
+    // deleted search before
+    if (params.get('nameStartsWith')) {
+        params.delete('nameStartsWith')
+    }
+    if (params.get('titleStartsWith')) {
+        params.delete('titleStartsWith')
+    }
     // type
     const searchType = form.type_filter.value;
     params.set('type', searchType);
@@ -193,7 +204,7 @@ const filters = (e) => {
         params.set('titleStartsWith', searchTextSlugify);
     } else if (searchType === "characters") {
         params.set('nameStartsWith', searchTextSlugify);
-    } else { }
+    } 
     // sort
     const searchSort = form.sort_filter.value;
     if (searchType === "comics") {
@@ -215,8 +226,8 @@ const filters = (e) => {
     }
     window.location.href = 'index.html?' + params;
 }
-if(searchForm)
-searchForm.addEventListener("submit", filters)
+if (searchForm)
+    searchForm.addEventListener("submit", filters)
 
 
 // **************************************
