@@ -166,6 +166,17 @@ var filters = function (e) {
     var form = e.target;
     // page
     params["delete"]('page');
+    // id from data.html
+    if (params.get('id')) {
+        params["delete"]('id');
+    }
+    // deleted search before
+    if (params.get('nameStartsWith')) {
+        params["delete"]('nameStartsWith');
+    }
+    if (params.get('titleStartsWith')) {
+        params["delete"]('titleStartsWith');
+    }
     // type
     var searchType = form.type_filter.value;
     params.set('type', searchType);
@@ -178,7 +189,6 @@ var filters = function (e) {
     else if (searchType === "characters") {
         params.set('nameStartsWith', searchTextSlugify);
     }
-    else { }
     // sort
     var searchSort = form.sort_filter.value;
     if (searchType === "comics") {
