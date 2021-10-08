@@ -164,9 +164,9 @@ var slugify = function (text) {
 var filters = function (e) {
     e.preventDefault();
     var form = e.target;
-    // page
+    // delete page
     params["delete"]('page');
-    // id from data.html
+    // delete id from data.html
     if (params.get('id')) {
         params["delete"]('id');
     }
@@ -183,11 +183,13 @@ var filters = function (e) {
     // text
     var searchText = form.text.value;
     var searchTextSlugify = slugify(searchText);
-    if (searchType === "comics") {
-        params.set('titleStartsWith', searchTextSlugify);
-    }
-    else if (searchType === "characters") {
-        params.set('nameStartsWith', searchTextSlugify);
+    if (searchText !== "") {
+        if (searchType === "comics") {
+            params.set('titleStartsWith', searchTextSlugify);
+        }
+        else if (searchType === "characters") {
+            params.set('nameStartsWith', searchTextSlugify);
+        }
     }
     // sort
     var searchSort = form.sort_filter.value;

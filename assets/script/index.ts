@@ -181,9 +181,9 @@ const slugify = (text: { toString: () => string; }) => {
 const filters = (e) => {
     e.preventDefault()
     const form = e.target;
-    // page
+    // delete page
     params.delete('page');
-    // id from data.html
+    // delete id from data.html
     if (params.get('id')) {
         params.delete('id')
     }
@@ -200,11 +200,13 @@ const filters = (e) => {
     // text
     const searchText = form.text.value;
     const searchTextSlugify = slugify(searchText);
-    if (searchType === "comics") {
-        params.set('titleStartsWith', searchTextSlugify);
-    } else if (searchType === "characters") {
-        params.set('nameStartsWith', searchTextSlugify);
-    } 
+    if (searchText !== "") {
+        if (searchType === "comics") {
+            params.set('titleStartsWith', searchTextSlugify);
+        } else if (searchType === "characters") {
+            params.set('nameStartsWith', searchTextSlugify);
+        }
+    }
     // sort
     const searchSort = form.sort_filter.value;
     if (searchType === "comics") {
