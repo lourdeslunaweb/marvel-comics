@@ -197,7 +197,7 @@ const showHiddeFordwardBtnBelow = (page: number) => {
 }
 
 // **************************************
-// *** Initial function of index.html ***
+// *** Initial function of data.html ***
 // **************************************
 
 const initData = () => {
@@ -210,8 +210,3 @@ const initData = () => {
 initData()
 
 
-//-------------GO BACK PARAMETERS------------------
-// const goBack= document.createElement('a');
-// goBack.innerHTML="Volver";
-// goBack.setAttribute('href', "javascript:history.back()");
-// goBack.classList.add('go-back');  
