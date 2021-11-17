@@ -1,9 +1,6 @@
 // *******************************************
 // *** Display selected card in data.html ***
 // *******************************************
-//Params Data
-// const params = new URLSearchParams(window.location.search);
-// console.log(params.toString());
 //Nodes
 var cardData = document.getElementById("card-data");
 var subTitleBelow = document.getElementById("subtitle-below");
