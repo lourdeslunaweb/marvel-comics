@@ -86,7 +86,8 @@ const displayCards = (cards: Card[], type: string) => {
 
 // *** Display Totals Results of fetch ***
 const displayTotalResults = (result: number, node: HTMLElement) => {
-    node.innerText = `${result} resultados`;
+    if(result !== null){
+    node.innerText =  `${result} resultados`}
 }
 
 // ***********************************

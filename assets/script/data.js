@@ -166,7 +166,7 @@ var showHiddeFordwardBtnBelow = function (page) {
     }
 };
 // **************************************
-// *** Initial function of index.html ***
+// *** Initial function of data.html ***
 // **************************************
 var initData = function () {
     var params = new URLSearchParams(window.location.search);
@@ -176,8 +176,3 @@ var initData = function () {
     displaySelectedCard(type, id, page);
 };
 initData();
-//-------------GO BACK PARAMETERS------------------
-// const goBack= document.createElement('a');
-// goBack.innerHTML="Volver";
-// goBack.setAttribute('href', "javascript:history.back()");
-// goBack.classList.add('go-back');  

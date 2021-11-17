@@ -75,7 +75,9 @@ var displayCards = function (cards, type) {
 };
 // *** Display Totals Results of fetch ***
 var displayTotalResults = function (result, node) {
-    node.innerText = result + " resultados";
+    if (result !== null) {
+        node.innerText = result + " resultados";
+    }
 };
 // ***********************************
 // *** Pagination Btn in index.html***
